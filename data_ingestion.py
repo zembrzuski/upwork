@@ -1,26 +1,35 @@
 from datetime import datetime
+import logging
 
 
-def init_database(es):
-    insert_a_hundred_documents(1)
-    insert_a_hundred_documents(2)
-    insert_a_hundred_documents(3)
+class DataIngestion:
+    """
+    Script responsible for initial data ingestion.
+    """
 
+    def __init__(self, es):
+        self.es = es
 
-def insert_a_hundred_documents(es, index_counter):
-    index_name = 'project_{}'.format(index_counter)
+    def init_database(self, number_of_documents_per_index):
+        logging.info('creating indices')
+        self.__insert_a_hundred_documents(1, number_of_documents_per_index)
+        self.__insert_a_hundred_documents(2, number_of_documents_per_index)
+        self.__insert_a_hundred_documents(3, number_of_documents_per_index)
+        logging.info('finished indices creation')
 
-    for i in range(1, 100):
-        __simple_index(es, index_name, i)
+    def __insert_a_hundred_documents(self, index_counter, number_of_documents_per_index):
+        index_name = 'project_{}'.format(index_counter)
 
+        for i in range(0, number_of_documents_per_index):
+            self.__simple_index(index_name, i)
 
-def __simple_index(es, index_name, i):
-    body = {
-        'alfa': 'a',
-        'beta': 'b',
-        'counter': i,
-        'original_index': index_name,
-        'last_updated': datetime.now()
-    }
+    def __simple_index(self, index_name, i):
+        body = {
+            'alfa': 'a',
+            'beta': 'b',
+            'counter': i,
+            'original_index': index_name,
+            'last_updated': datetime.now()
+        }
 
-    es.index(index=index_name, body=body)
+        self.es.index(index=index_name, body=body)
