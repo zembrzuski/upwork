@@ -2,9 +2,11 @@ from data_ingestion import DataIngestion
 from reindexer import Reindexer
 from task_checker import TaskChecker
 from update_client import UpdateClient
+
 from elasticsearch import Elasticsearch
 import logging
 import sys
+import os
 
 
 def __configure_log():
@@ -20,7 +22,10 @@ def __configure_log():
 
 if __name__ == '__main__':
     __configure_log()
-    es = Elasticsearch()
+
+    es_host = os.getenv('ES_HOSTS')
+    es = Elasticsearch(hosts=es_host)
+
     data_ingestion = DataIngestion(es)
     reindex_client = Reindexer(es)
     task_management_client = TaskChecker(es)

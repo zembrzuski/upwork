@@ -6,3 +6,7 @@ Notes:
 - it would be better if I could generate random data to insert. But id din't do it.
 - it would be better if I had made some erro handling. 
 - it would be better to implement some validation at the http endpoint.
+
+
+docker build -t upwork .
+docker run --env ES_HOSTS=192.168.15.14 upwork

@@ -1,8 +1,10 @@
 from elasticsearch import Elasticsearch
 from flask import Flask
 from flask import request
+import os
 
-es = Elasticsearch()
+es_host = os.getenv('ES_HOSTS')
+es = Elasticsearch(hosts=es_host)
 app = Flask(__name__)
 
 
