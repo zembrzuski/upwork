@@ -4,10 +4,7 @@ from datetime import datetime
 es = Elasticsearch()
 
 
-def execute():
-    # TODO slicing, throttling, etc.
-
-    search_definition = {
+update_definition = {
         "query": {
             "match_all": {}
         },
@@ -19,16 +16,14 @@ def execute():
         }
     }
 
+
+def execute():
+    # TODO slicing, throttling, etc.
+
     result = es.update_by_query(
         index='reidexed_projects',
-        body=search_definition,
-        wait_for_completion=True
+        body=update_definition,
+        wait_for_completion=False
     )
 
-    searched = es.search(
-        index='reidexed_projects',
-        size=10000
-    )
-    print('coi')
-
-    print(result)
+    return result['task']
