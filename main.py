@@ -13,6 +13,8 @@ def __configure_log():
     root = logging.getLogger()
     root.setLevel(logging.INFO)
 
+    logging.getLogger('elasticsearch').setLevel(logging.CRITICAL)
+
     handler = logging.StreamHandler(sys.stdout)
     handler.setLevel(logging.INFO)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -33,6 +35,8 @@ if __name__ == '__main__':
 
     number_of_documents_per_index = 100
     target_index = 'target_index'
+
+    task_management_client.block_until_elasticsearch_is_healthy()
 
     data_ingestion.init_database(number_of_documents_per_index)
 

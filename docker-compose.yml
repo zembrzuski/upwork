@@ -1,5 +1,27 @@
-version: '2.2'
+version: '3.3'
 services:
+  pythonapp:
+    build: .
+    environment:
+      - ES_HOSTS=es01
+    networks:
+      - elastic
+    depends_on:
+      - es01
+      - es02
+  pythonweb:
+    build:
+      context: .
+      dockerfile: Dockerfile-web
+    environment:
+      - ES_HOSTS=es01
+    ports:
+      - "5000:5000"
+    networks:
+      - elastic
+    depends_on:
+      - es01
+      - es02
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
     container_name: es01
