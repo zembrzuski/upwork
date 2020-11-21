@@ -7,6 +7,9 @@ es = Elasticsearch()
 
 
 def execute():
+
+    # TODO control better the throttling
+
     source_index = 'project_*'
     destination_index = 'reidexed_projects'
 
@@ -17,8 +20,8 @@ def execute():
 
     result = es.reindex(
         body=body,
-        wait_for_completion=True,
-        request_timeout=300
+        wait_for_completion=False,
+        request_timeout=300,
     )
 
-    print(result)
+    return result['task']
