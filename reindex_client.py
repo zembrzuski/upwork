@@ -1,27 +1,15 @@
-from elasticsearch import Elasticsearch
-from datetime import datetime
-
-es = Elasticsearch()
-
-# TODO inject es client.
-
-
-def execute():
-
-    # TODO control better the throttling
-
+def execute(es, target_index, slices=5):
     source_index = 'project_*'
-    destination_index = 'reidexed_projects'
 
     body = {
         "source": {"index": source_index},
-        "dest": {"index": destination_index}
+        "dest": {"index": target_index}
     }
 
     result = es.reindex(
         body=body,
         wait_for_completion=False,
         request_timeout=300,
-    )
+        slices=slices)
 
     return result['task']

@@ -2,15 +2,19 @@ import data_ingestion
 import reindex_client
 import task_management_client
 import update_client
+from elasticsearch import Elasticsearch
+import logging
 
-# TODO throttling, slicing, etc.
-# TODO write about possible timezone issues.
 
-# data_ingestion.init_database()
-reindex_task_id = reindex_client.execute()
-task_management_client.check_task_status(reindex_task_id)
+if __name__ == '__main__':
+    es = Elasticsearch()
+    target_index = 'target_index'
 
-update_task_id = update_client.execute()
-task_management_client.check_task_status(update_task_id)
+    data_ingestion.init_database(es)
+    reindex_task_id = reindex_client.execute(es, target_index)
+    task_management_client.check_task_status(es, reindex_task_id)
 
-print('finished')
+    update_task_id = update_client.execute(es, target_index)
+    task_management_client.check_task_status(es, update_task_id)
+
+    logging.info('finished initial script')

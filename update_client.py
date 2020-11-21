@@ -1,9 +1,3 @@
-from elasticsearch import Elasticsearch
-from datetime import datetime
-
-es = Elasticsearch()
-
-
 update_definition = {
         "query": {
             "match_all": {}
@@ -17,13 +11,12 @@ update_definition = {
     }
 
 
-def execute():
-    # TODO slicing, throttling, etc.
-
+def execute(es, target_index, slices=5):
     result = es.update_by_query(
-        index='reidexed_projects',
+        index=target_index,
         body=update_definition,
-        wait_for_completion=False
+        wait_for_completion=False,
+        slices=5
     )
 
     return result['task']
