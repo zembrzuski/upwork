@@ -1,6 +1,5 @@
-from elasticsearch import Elasticsearch
-from pprint import pformat
+import data_ingestion
 
-es = Elasticsearch()
+data_ingestion.init_database()
 
-print(pformat(es.cluster.health()))
+# print(pformat(es.cluster.health()))
