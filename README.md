@@ -5,3 +5,4 @@ Notes:
 - it would be better to ingest initial data using bulk api. But id didn't do it.
 - it would be better if I could generate random data to insert. But id din't do it.
 - it would be better if I had made some erro handling. 
+- it would be better to implement some validation at the http endpoint.
